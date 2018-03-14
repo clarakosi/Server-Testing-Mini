@@ -4,7 +4,7 @@
   "description": "## A follow along practice for teaching TDD",
   "main": "index.js",
   "scripts": {
-    "test": "mocha *.test.js",
+    "test": "mocha *.test.js --exit",
     "start": "nodemon index.js"
   },
   "repository": {

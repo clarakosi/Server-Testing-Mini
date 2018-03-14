@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/test");
 
 const chai = require("chai");
 const { expect } = chai;
@@ -10,6 +9,22 @@ const server = require("./server");
 const Band = require("./models");
 
 describe("Bands", () => {
+  before(done => {
+    mongoose.connect("mongodb://localhost/test");
+    const db = mongoose.connection;
+    db.on('error', () => {
+      console.error('Connection to mongodb failed');
+    })
+    db.once('open', () => {
+      console.log('Connected');
+      done();
+    });
+  })
+  after(done => {
+    mongoose.connection.db.dropDatabase(() => {
+      mongoose.connection.close(done);
+    })
+  });
   describe("getBandName", () => {
     it("should return the expected band name", () => {
       const band = new Band({
